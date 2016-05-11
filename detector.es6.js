@@ -1,15 +1,16 @@
 var inactivityDetector = (() => {
     'use strict';
 
-    const BODY_ELEMENT_NAME = 'body',
-          CLICK_EVENT_NAME  = 'click touchstart';
+    const BODY_ELEMENT_NAME         = 'body',
+          DEFAULT_EVENT_TO_LISTEN  = 'click touchstart';
 
     let lastClick,
         redirectUrl,
         waitingTime,
+        eventToListen,
         $body;
 
-    let setDOMElements = () => $body = $(BODY_ELEMENT_NAME);
+    let setDOMElements = () => $body = document.querySelector(BODY_ELEMENT_NAME);
 
     let setLastClick = () => lastClick = Date.now();
 
@@ -29,9 +30,14 @@ var inactivityDetector = (() => {
             : defaultWaitingTime
     };
 
+    let setEventsToListen = settings => {
+        eventToListen = (settings)
+            ? settings.eventToListen || DEFAULT_EVENT_TO_LISTEN
+            : DEFAULT_EVENT_TO_LISTEN
+    };
 
     let bindEvents = () => {
-        $body.on(CLICK_EVENT_NAME, setLastClick)
+        $body.addEventListener(eventToListen, setLastClick)
     };
 
     let checkActivity = () => {
@@ -54,6 +60,7 @@ var inactivityDetector = (() => {
             setLastClick();
             setRedirectUrl(settings);
             setWaitingTime(settings);
+            setEventsToListen(settings);
             bindEvents();
             startInactivityDetector();
         }
