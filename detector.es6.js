@@ -14,11 +14,15 @@ var inactivityDetector = (() => {
 
     let setLastClick = () => lastClick = Date.now();
 
+    let getLastClick = () => lastClick;
+
     let setRedirectUrl = settings => {
         redirectUrl = (settings && settings.redirectUrl)
             ? settings.redirectUrl
             : window.location.origin
     };
+
+    let getRedirectUrl = () => redirectUrl;
 
     let setWaitingTime = settings => {
         let defaultWaitingTime = 300000; // 5 minutes by default
@@ -27,6 +31,8 @@ var inactivityDetector = (() => {
             ? settings.waitingTime
             : defaultWaitingTime
     };
+
+    let getWaitingTime = () => waitingTime;
 
     let setEventsToListen = settings => {
         eventToListen = (settings && settings.eventToListen)
@@ -39,8 +45,8 @@ var inactivityDetector = (() => {
     };
 
     let checkActivity = () => {
-        if (Date.now() - lastClick >= waitingTime) {
-            window.location.href = redirectUrl;
+        if (Date.now() - getLastClick() >= waitingTime()) {
+            window.location.href = getRedirectUrl();
             return false;
         }
 
@@ -61,6 +67,9 @@ var inactivityDetector = (() => {
             setEventsToListen(settings);
             bindEvents();
             startInactivityDetector();
-        }
+        },
+        getRedirectUrl,
+        getWaitingTime,
+        getLastClick
     }
 })();
