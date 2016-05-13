@@ -1,8 +1,8 @@
 var inactivityDetector = (() => {
     'use strict';
 
-    const BODY_ELEMENT_NAME         = 'body',
-          DEFAULT_EVENT_TO_LISTEN  = 'click touchstart';
+    const BODY_ELEMENT_NAME       = 'body',
+          DEFAULT_EVENT_TO_LISTEN = 'click';
 
     let lastClick,
         redirectUrl,
