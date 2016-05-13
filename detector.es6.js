@@ -15,24 +15,22 @@ var inactivityDetector = (() => {
     let setLastClick = () => lastClick = Date.now();
 
     let setRedirectUrl = settings => {
-        let origin = window.location.origin;
-
-        redirectUrl = (settings)
-            ? settings.redirectUrl || origin
-            : origin
+        redirectUrl = (settings && settings.redirectUrl)
+            ? settings.redirectUrl
+            : window.location.origin
     };
 
     let setWaitingTime = settings => {
         let defaultWaitingTime = 300000; // 5 minutes by default
 
-        waitingTime = (settings)
-            ? settings.waitingTime || defaultWaitingTime
+        waitingTime = (settings && settings.waitingTime)
+            ? settings.waitingTime
             : defaultWaitingTime
     };
 
     let setEventsToListen = settings => {
-        eventToListen = (settings)
-            ? settings.eventToListen || DEFAULT_EVENT_TO_LISTEN
+        eventToListen = (settings && settings.eventToListen)
+            ? settings.eventToListen
             : DEFAULT_EVENT_TO_LISTEN
     };
 
